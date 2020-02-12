@@ -1,0 +1,7 @@
+-rrequirements.txt
+tox
+codecov
+coverage
+pep8
+flake8
+pylint
