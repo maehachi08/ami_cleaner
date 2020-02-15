@@ -56,7 +56,7 @@ def _is_using_image(args, image) -> bool:
 def _is_creation_date_expire_limit(args, image) -> bool:
     logger.debug('function started')
     days_count = args.days
-    ami_age_limit = datetime.now() - timedelta(days=days_count)
+    ami_age_limit = _get_datetime_now() - timedelta(days=days_count)
 
     date_string = image['CreationDate']
     image_dt = datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%S.%fZ')
@@ -67,6 +67,10 @@ def _is_creation_date_expire_limit(args, image) -> bool:
         return True
 
     return False
+
+
+def _get_datetime_now():
+    return datetime.now()
 
 
 def _tag_filter_generate(args):
