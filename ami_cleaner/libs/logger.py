@@ -7,9 +7,9 @@ def get_logger(args):
     handler.setLevel(DEBUG if args.debug else INFO)
     handler_format = Formatter(
         '%(asctime)s \
-        %(levelname)-8s \
-        %(name)s:%(lineno)-4d \
-        %(funcName)-16s \
+        %(levelname)s \
+        %(name)s:%(lineno)d \
+        %(funcName)-8s \
         %(message)s'
     )
     handler.setFormatter(handler_format)

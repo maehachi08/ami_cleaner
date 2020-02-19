@@ -27,8 +27,10 @@ def main():
 
         for image in images['Images']:
             image_id = image['ImageId']
+            logger.info(f'AMI: {image_id} start.')
             deregister_image(args, image_id)
             delete_image_snapshopt(args, image)
+            logger.info(f'AMI: {image_id} end.')
 
     except Exception as e:
         logger.error(str(e))

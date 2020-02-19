@@ -1,4 +1,7 @@
 import boto3
+from logging import getLogger
+
+logger = getLogger('ami_cleaner').getChild(__name__)
 
 
 def delete_image_snapshopt(args, image):
@@ -14,6 +17,7 @@ def _delete_specified_snapshot(args, snapshot_id):
     client.delete_snapshot(
         SnapshotId=snapshot_id
     )
+    logger.info(f'Snapshot {snapshot_id} deleted.')
 
 
 def _get_client(region: str):

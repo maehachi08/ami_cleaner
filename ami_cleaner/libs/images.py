@@ -32,6 +32,7 @@ def deregister_image(args, image_id):
     client.deregister_image(
         ImageId=image_id,
     )
+    logger.info(f'AMI: {image_id} deregisterd.')
 
 
 def _get_client(region: str):
