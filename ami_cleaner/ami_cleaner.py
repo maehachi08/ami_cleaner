@@ -20,8 +20,9 @@ def main():
         logger.debug('main startedi.')
 
         images = get_images_should_deregister(args)
-        if args.dry_run and images['Images']:
-            print_tableview(images)
+        if args.dry_run:
+            if images['Images']:
+                print_tableview(images)
             return
 
         for image in images['Images']:
