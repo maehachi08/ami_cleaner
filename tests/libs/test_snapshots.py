@@ -47,23 +47,39 @@ class TestSnapshot(unittest.TestCase):
 
     @patch('ami_cleaner.libs.snapshots._delete_specified_snapshot')
     def test_delete_image_snapshopt_with_SnapshotId(self, mocked_delete_snapshot):
+        # prepare
         args = self._create_parser('--region', 'ap-northeast-1')
+
+        # run test
         target.delete_image_snapshopt(args, self.image)
+
+        # assert
         self.assertEqual(mocked_delete_snapshot.call_count, 1)
 
     @patch('ami_cleaner.libs.snapshots._delete_specified_snapshot')
     def test_delete_image_snapshopt_without_SnapshotId(self, mocked_delete_snapshot):
+        # prepare
         args = self._create_parser('--region', 'ap-northeast-1')
+
+        # run test
         target.delete_image_snapshopt(args, self.image_without_SnapshotId)
+
+        # assert
         self.assertEqual(mocked_delete_snapshot.call_count, 0)
 
     @patch('ami_cleaner.libs.snapshots._get_client')
     def test_delete_specified_snapshot(self, mocked_client):
+        # prepare
         args = self._create_parser('--region', 'ap-northeast-1')
         snapshot_id = self.image['BlockDeviceMappings'][0]['Ebs']['SnapshotId']
+
+        # run test
         target._delete_specified_snapshot(args, snapshot_id)
 
     @patch('ami_cleaner.libs.snapshots.boto3')
     def test_get_client(self, mocked_boto3):
+        # prepare
         args = self._create_parser('--region', 'ap-northeast-1')
+
+        # run test
         target._get_client(args.region)

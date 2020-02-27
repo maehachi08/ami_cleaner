@@ -17,15 +17,25 @@ class TestParser(unittest.TestCase):
         return args
 
     def test_tag_filters_chain(self):
+        # prepare
         _args = self._create_parser('--tag-filters', [{'Name': 'test-image'}, {'Env': 'development'}])
+
+        # run test
         args = target.tag_filters_chain(_args)
+
+        # assert
         self.assertDictEqual(args.tag_filters, {'Name': 'test-image', 'Env': 'development'})
 
     @patch('ami_cleaner.libs.parser.get_account_id')
     def test_create_parser(self, mocked_get_account_id):
+        # prepare
         mocked_get_account_id.return_value = '0123456789'
+
+        # run test
         arg_parser = target.create_parser()
         args = arg_parser.parse_args()
+
+        # assert
         self.assertFalse(args.debug)
         self.assertFalse(args.dry_run)
         self.assertEqual(args.days, 90)

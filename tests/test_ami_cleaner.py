@@ -45,10 +45,15 @@ class TestImages(unittest.TestCase):
                                mocked_logger,
                                mocked_get_images,
                                mocked_print_tableview):
+        # prepare
         args = self._create_parser('--dry-run', True)
         mocked_create_parser.return_value = args
         mocked_get_images.return_value = self.images
+
+        # run test
         target.main()
+
+        # assert
         self.assertEqual(mocked_print_tableview.call_count, 1)
 
     @patch('ami_cleaner.ami_cleaner.print_tableview')
@@ -62,10 +67,15 @@ class TestImages(unittest.TestCase):
                                               mocked_logger,
                                               mocked_get_images,
                                               mocked_print_tableview):
+        # prepare
         args = self._create_parser('--dry-run', True)
         mocked_create_parser.return_value = args
         mocked_get_images.return_value = {'Images': []}
+
+        # run test
         target.main()
+
+        # assert
         self.assertEqual(mocked_print_tableview.call_count, 0)
 
     @patch('ami_cleaner.ami_cleaner.delete_image_snapshopt')
@@ -83,13 +93,16 @@ class TestImages(unittest.TestCase):
                                  mocked_print_tableview,
                                  mocked_deregister_image,
                                  mocked_delete_image_snapshopt):
-
+        # prepare
         arg_parser = self._create_parser('--dry-run', None)
         args = arg_parser.parse_args()
         mocked_tag_filters_chain.return_value = args
         mocked_get_images.return_value = {'Images': []}
 
+        # run test
         target.main()
+
+        # assert
         self.assertEqual(mocked_print_tableview.call_count, 0)
         self.assertEqual(mocked_deregister_image.call_count, 0)
         self.assertEqual(mocked_delete_image_snapshopt.call_count, 0)
@@ -109,13 +122,16 @@ class TestImages(unittest.TestCase):
                               mocked_print_tableview,
                               mocked_deregister_image,
                               mocked_delete_image_snapshopt):
-
+        # prepare
         arg_parser = self._create_parser('--dry-run', None)
         args = arg_parser.parse_args()
         mocked_tag_filters_chain.return_value = args
         mocked_get_images.return_value = self.images
 
+        # run test
         target.main()
+
+        # assert
         self.assertEqual(mocked_print_tableview.call_count, 0)
         self.assertEqual(mocked_deregister_image.call_count, 1)
         self.assertEqual(mocked_delete_image_snapshopt.call_count, 1)
@@ -135,13 +151,16 @@ class TestImages(unittest.TestCase):
                                  mocked_print_tableview,
                                  mocked_deregister_image,
                                  mocked_delete_image_snapshopt):
-
+        # prepare
         arg_parser = self._create_parser('--dry-run', None)
         args = arg_parser.parse_args()
         mocked_tag_filters_chain.return_value = args
         mocked_get_images.side_effect = Exception('test exception')
 
+        # run test
         target.main()
+
+        # assert
         self.assertEqual(mocked_print_tableview.call_count, 0)
         self.assertEqual(mocked_deregister_image.call_count, 0)
         self.assertEqual(mocked_delete_image_snapshopt.call_count, 0)
